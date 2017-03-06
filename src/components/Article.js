@@ -8,6 +8,7 @@ class Article extends Component {
         this.setCommentsOpenState = this.setCommentsOpenState.bind(this)
         this.state = {
             isOpen: false,
+          //Лучше внести этот стейт в CommentList
             isCommentsOpen: false
         }
     }

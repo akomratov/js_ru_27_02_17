@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Comment from './Comment'
 
 /* Вопросы, возникшие в процессе выполнения:
+Ответил в письме
 
  1. Article и ArticleList - оба компоненты
      при этом Article унаследован от класса ReactComponent,

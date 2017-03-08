@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {PropTypes, Component} from 'react'
 import Comment from './Comment'
 import toggleOpen from '../decorators/toggleOpen'
 
@@ -20,6 +20,7 @@ class CommentList extends Component {
     }
 
     render() {
+        console.log('Decorated CommentList.render()')
         const {isOpen, toggleOpen} = this.props
         console.log('---', this.size)
         return (
@@ -58,6 +59,10 @@ class CommentList extends Component {
             </div>
         )
     }
+}
+
+CommentList.propTypes = {
+    comments: PropTypes.array.isRequired
 }
 
 export default toggleOpen(CommentList)

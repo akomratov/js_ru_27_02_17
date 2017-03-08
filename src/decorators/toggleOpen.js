@@ -14,6 +14,7 @@ export default (CustomComponent) => class DecoratedComponent extends React.Compo
     }
 
     render() {
+        console.log('Decorator toggleOpen.render()')
         return <CustomComponent {...this.props} {...this.state} toggleOpen={this.toggleOpen} />
     }
 }

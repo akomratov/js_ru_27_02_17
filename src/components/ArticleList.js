@@ -24,7 +24,8 @@ function ArticleList(props) {
 }
 
 ArticleList.propTypes = {
-    articles: PropTypes.array.isRequired
+       //вот сюда еще и из декоратора данные приходят
+     articles: PropTypes.array.isRequired
 }
 
 export default Accordion(ArticleList)

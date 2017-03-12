@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import Comment from './Comment'
+import CommentForm from './CommentForm/index'
 import toggleOpen from '../decorators/toggleOpen'
+
 
 class CommentList extends Component {
 
@@ -18,7 +20,6 @@ class CommentList extends Component {
 
     render() {
         const {isOpen, toggleOpen} = this.props
-//        console.log('---', this.size)
         return (
             <div ref={this.getContainerRef}>
                 <a href="#" onClick={toggleOpen}>{isOpen ? 'hide' : 'show'} comments</a>
@@ -43,6 +44,7 @@ class CommentList extends Component {
                 <h3>
                     No comments yet
                 </h3>
+                <CommentForm onAddComment={this.handleAddComment}/>
             </div>
         }
 
@@ -52,8 +54,15 @@ class CommentList extends Component {
                 <ul>
                     {commentItems}
                 </ul>
+                <CommentForm onAddComment={this.handleAddComment}/>
             </div>
         )
+    }
+
+    handleAddComment(user, comment) {
+        console.log('New comment:')
+        console.log('    - user ' + user)
+        console.log('    - comment ' + comment)
     }
 }
 

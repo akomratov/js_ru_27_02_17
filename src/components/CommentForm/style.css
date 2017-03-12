@@ -1,0 +1,8 @@
+
+div.comment  { display: table; border-collapse: separate; border-spacing: 5px 5px; }
+p.comment     { display: table-row;  }
+label.comment { display: table-cell; vertical-align: top; }
+label.commentError { display: table-cell; vertical-align: top; color: red }
+input.comment { display: table-cell; }
+textarea.comment { display: table-cell; }
+button.comment { display: table-cell; horiz-align: right; }

@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 
+//ответил в письме. Как по мне - ты перемудрил. Не усложняй лишний раз. + Тут значительно лучше сделать компонент чем декоратор
 export default (Control) => class ValidateField extends Component {
 
     static propTypes = {

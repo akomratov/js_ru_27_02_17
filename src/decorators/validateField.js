@@ -9,6 +9,7 @@ export default (Control) => class ValidateField extends Component {
     }
 
     validate = () => {
+        var valid = true
         var errorMessage = ''
         const {validationSchema, name, label, value, setError} = this.props
         const schema = validationSchema[name]
@@ -17,14 +18,17 @@ export default (Control) => class ValidateField extends Component {
         if( schema.required && JSON.parse(schema.required) === true && !value ) {
             errorMessage = label + ' is required';
             console.log('validate(): ' + errorMessage)
+            valid = false
         }
 
         if( schema.max && schema.max > 0 && value.length > schema.max ) {
             errorMessage = label + ' must not exceed ' + schema.max + ' chars (current length is ' + value.length + ')'
             console.log('validate(): ' + errorMessage)
+            valid = false
         }
 
         setError(name, errorMessage)
+        return valid
     }
 
     render() {

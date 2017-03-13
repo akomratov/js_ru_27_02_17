@@ -9,7 +9,7 @@ import moment from 'moment'
 
 import 'react-select/dist/react-select.css'
 import 'react-day-picker/lib/style.css'
-
+//компонент становится слишком большим, пора разбивать на более мелкие
 class App extends Component {
     static propTypes = {
         articles: PropTypes.array.isRequired

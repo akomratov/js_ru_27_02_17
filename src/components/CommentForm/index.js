@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import './style.css'
 
+import Input from '../Input/index'
+
 // CommentForm (new form)
 export default class CommentForm extends Component {
 
@@ -11,6 +13,19 @@ export default class CommentForm extends Component {
         commentError: ''
     }
 
+    validatableFields = []
+
+    validationSchema = {
+        name: {
+            max: 10,
+            required: true
+        },
+        comment: {
+            max: 150,
+            required: true
+        }
+    }
+
     static propTypes = {
         onAddComment: PropTypes.func.isRequired
     }
@@ -18,37 +33,40 @@ export default class CommentForm extends Component {
     render() {
 
         return(
-            <div className="comment">
-                <p className="comment">
-                    <label className="comment">Name</label>
-                    <div className="validated-input">
-                        <input type="text" name="name" value={this.state.name} onChange={this.onChange}/>
-                        <label className="validation-error">{this.state.nameError}</label>
-                    </div>
-                </p>
-                <p className="comment">
+            <div className="comment-form">
+                <Input validationSchema={this.validationSchema} ref={this.getValidatableField} name="name" label="Name" value={this.state.name} onChange={this.onChange} error={this.state.nameError} setError={this.setError} />
+                <div className="comment-input">
                     <label className="comment">Comment</label>
                     <div className="validated-input">
                         <textarea rows="4" name="comment" value={this.state.comment} onChange={this.onChange}></textarea>
                         <label className="validation-error">{this.state.commentError}</label>
                     </div>
-                </p>
-                <p className="comment">
+                </div>
+                <div className="comment-input">
                     <div className="form-button">
                         <button onClick={this.handleClickResetForm}>Reset form</button>
                     </div>
                     <div className="form-button">
                         <button onClick={this.handleClickAddComment}>Add comment</button>
                     </div>
-                </p>
+                </div>
             </div>
         )
     }
 
     handleClickAddComment = () => {
-        var nameError, commentError
+        var nameError, commentError, error
+        error = false
         const {onAddComment} = this.props
         const {name, comment} = this.state
+
+        this.validatableFields.map((field) => {
+            field.validate(this.validationSchema)
+            console.log(field.props.name)
+            if( this.state[field.props.name + "Error"] ) {
+                error = true
+            }
+        })
 
         if( !name ) {
             nameError = 'Name is required'
@@ -62,12 +80,15 @@ export default class CommentForm extends Component {
             commentError = 'Comment must not exceed 150 characters. Current length is ' + comment.length
         }
 
+        if( error ) {
+            console.log('ERROR OCCURED!!!')
+        }
 
         if( nameError || commentError ) {
             console.log(nameError)
             console.log(name)
             this.setState({
-                nameError: (nameError ? nameError : ''),
+                //nameError: (nameError ? nameError : ''),
                 commentError: (commentError ? commentError : '')
             })
         } else {
@@ -91,9 +112,22 @@ export default class CommentForm extends Component {
         })
     }
 
+    getValidatableField = ref => {
+        if( ref ) {
+            console.log('getValidatableField(): push input field')
+            this.validatableFields.push(ref)
+        }
+    }
+
     onChange = ev => {
         const state = {}
         state[ev.target.name] = ev.target.value
+        this.setState(state)
+    }
+
+    setError = (name, message) => {
+        const state = {}
+        state[name + "Error"] = message
         this.setState(state)
     }
 }

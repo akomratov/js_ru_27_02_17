@@ -1,6 +1,6 @@
 
-div.comment  { display: table; border-collapse: separate; border-spacing: 5px 5px; }
-p.comment     { display: table-row;  }
+div.comment-form  { display: table; border-collapse: separate; border-spacing: 5px 5px; }
+div.comment-input { display: table-row; }
 label.comment { display: table-cell; vertical-align: top; }
 label.validation-error { display: table-cell; vertical-align: top; color: red }
 div.validated-input { display: table-cell; }

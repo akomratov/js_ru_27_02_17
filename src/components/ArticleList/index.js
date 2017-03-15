@@ -13,6 +13,7 @@ class ArticleList extends Component {
 
         console.log('ArticleList-index.js: applyArticlesFilter, articlesFilter = ', articlesFilter)
 
+        //ок, но еще лучше делать фильтрацию в коннекте
         for(const selectedArticle of articlesFilter) {
             let res = articles.find(article => article.id === selectedArticle.value)
             if( res ) {

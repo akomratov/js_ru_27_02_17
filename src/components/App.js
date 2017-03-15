@@ -1,26 +1,30 @@
 import React, { Component, PropTypes } from 'react'
 import Article from './Article'
 import Counter from './Counter'
-import {articles} from '../fixtures'
+
+import {connect} from 'react-redux'
 
 class App extends Component {
 
     static propTypes = {
-    };
+    }
 
     state = {
-        text: '',
-        count: 0
     }
 
     render() {
+
+        const {articles} = this.props
+
         return (
             <div>
-                <Counter count={this.state.count} />
+                <Counter />
                 <Article article={articles[0]} />
             </div>
         )
     }
 }
 
-export default App
+export default connect(state => ({
+    articles: state.articles
+}))(App)

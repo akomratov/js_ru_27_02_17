@@ -1,25 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-//import {connect} from 'react-redux'
-//import {increment} from '../AC/index'
+import {connect} from 'react-redux'
+import {increment} from '../AC/index'
 
-class Counter extends Component {
-    static propTypes = {
-        count: PropTypes.number
-    };
-
-    render() {
-        const {count} = this.props
-        return (
-            <div>
-                <h3>Counter: {count}</h3>
-            </div>
-        )
-    }
-}
-
-export default Counter
-
-/*
 
 class Counter extends Component {
     static propTypes = {
@@ -38,15 +20,12 @@ class Counter extends Component {
 
     handleIncrement = (ev) => {
         ev.preventDefault()
+        //this.props.dispatch(increment())
         this.props.dispatchIncrement()
     }
 }
 
 export default connect(state => ({
     count: state.count
-}), {
-    dispatchIncrement: increment
-})(Counter)
+}), { dispatchIncrement: increment })(Counter)
 
-
-    */

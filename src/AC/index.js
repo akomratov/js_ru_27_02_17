@@ -15,10 +15,10 @@ export function deleteArticle(id) {
     }
 }
 
-export function setDateFilter(range) {
+export function setDateFilter(dateFilter) {
     return {
         type: SET_DATE_FILTER,
-        payload: { range }
+        payload: { dateFilter }
     }
 }
 

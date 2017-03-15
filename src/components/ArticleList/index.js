@@ -25,10 +25,32 @@ class ArticleList extends Component {
         return (result.length ? result : articles)
     }
 
-    render() {
-        const {articles, articlesFilter, toggleOpenItem, isItemOpened} = this.props
+    applyDateFilter = (articles, df) => {
 
-        const selectedArticles = this.applyArticlesFilter(articles, articlesFilter)
+        console.log('ArticleList-index.js: applyDateFilter, dateFilter = ', df, ', articles = ', articles)
+
+        if( df.from && df.to ) {
+            return articles.filter(a => {
+                if( Date.parse(a.date) >= df.from && Date.parse(a.date) <= df.to ) {
+                    console.log( 'article in INTERVAL ', a )
+                    return true
+                } else {
+                    console.log( 'article NOT in INTERVAL ', a )
+                    return false
+                }
+
+            })
+        }
+
+        return articles
+    }
+
+
+    render() {
+        const {articles, articlesFilter, dateFilter, toggleOpenItem, isItemOpened} = this.props
+
+        var selectedArticles = this.applyArticlesFilter(articles, articlesFilter)
+        selectedArticles = this.applyDateFilter(selectedArticles, dateFilter)
 
         console.log('ArticleList-index.js: render, selectedArticles = ', selectedArticles)
 
@@ -57,7 +79,8 @@ const mapStateToProps = state => {
     console.log('ArticleList-index.js: connect, state = ', state)
     return {
         articles: state.articles,
-        articlesFilter: state.articlesFilter
+        articlesFilter: state.articlesFilter,
+        dateFilter: state.dateFilter
     }
 }
 

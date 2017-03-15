@@ -4,6 +4,8 @@ import Chart from './Chart'
 import Filters from './Filters/index'
 import Counter from './Counter'
 
+import {connect} from 'react-redux'
+
 class App extends Component {
     static propTypes = {
     };
@@ -17,7 +19,7 @@ class App extends Component {
             <div>
                 <Counter />
                 Enter your name: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
-                <Filters articles={[]}/>
+                <Filters articles={this.props.articles}/>
                 <ArticleList />
                 <Chart />
             </div>
@@ -33,4 +35,11 @@ class App extends Component {
     }
 }
 
-export default App
+const mapStateToProps = state => {
+    console.log('---', 'connect in App, state = ', state)
+    return {
+        articles: state.articles
+    }
+}
+
+export default connect(mapStateToProps)(App)

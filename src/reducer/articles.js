@@ -1,7 +1,8 @@
 import {articles} from '../fixtures'
-import {DELETE_ARTICLE} from '../constants'
+import {DELETE_ARTICLE, SET_ARTICLES_FILTER, SET_DATE_FILTER} from '../constants'
 
 export default (state = articles, action) => {
+
     const { type, payload } = action
 
     switch (type) {

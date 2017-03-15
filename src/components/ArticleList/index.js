@@ -6,10 +6,33 @@ import accrdion from '../../decorators/accordion'
 import './style.css'
 
 class ArticleList extends Component {
-    render() {
-        const {articles, toggleOpenItem, isItemOpened} = this.props
 
-        const articleComponents = articles.map(article => <li key={article.id}>
+    applyArticlesFilter = (articles, articlesFilter) => {
+
+        var result = []
+
+        console.log('ArticleList-index.js: applyArticlesFilter, articlesFilter = ', articlesFilter)
+
+        for(const selectedArticle of articlesFilter) {
+            let res = articles.find(article => article.id === selectedArticle.value)
+            if( res ) {
+                result.push( res )
+            }
+        }
+
+        console.log('ArticleList-index.js: applyArticlesFilter, result = ', result)
+
+        return (result.length ? result : articles)
+    }
+
+    render() {
+        const {articles, articlesFilter, toggleOpenItem, isItemOpened} = this.props
+
+        const selectedArticles = this.applyArticlesFilter(articles, articlesFilter)
+
+        console.log('ArticleList-index.js: render, selectedArticles = ', selectedArticles)
+
+        const articleComponents = selectedArticles.map(article => <li key={article.id}>
             <Article article={article}
                      isOpen={isItemOpened(article.id)}
                      toggleOpen={toggleOpenItem(article.id)}
@@ -31,9 +54,10 @@ class ArticleList extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log('---', 'connect, state = ', state)
+    console.log('ArticleList-index.js: connect, state = ', state)
     return {
-        articles: state.articles
+        articles: state.articles,
+        articlesFilter: state.articlesFilter
     }
 }
 

@@ -1,4 +1,4 @@
-import {INCREMENT, DELETE_ARTICLE, SET_ARTICLES_FILTER, SET_DATE_FILTER} from '../constants'
+import {INCREMENT, DELETE_ARTICLE, SET_SEL_ARTICLES_FILTER, SET_DATE_FILTER} from '../constants'
 
 export function increment() {
     const action = {
@@ -15,16 +15,16 @@ export function deleteArticle(id) {
     }
 }
 
-export function setDateFilter(dateFilter) {
+export function setDateFilter(range) {
     return {
         type: SET_DATE_FILTER,
-        payload: { dateFilter }
+        payload: { range }
     }
 }
 
 export function setArticlesFilter(selected) {
     return {
-        type: SET_ARTICLES_FILTER,
+        type: SET_SEL_ARTICLES_FILTER,
         payload: { selected }
     }
 }

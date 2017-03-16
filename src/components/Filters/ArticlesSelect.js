@@ -38,5 +38,5 @@ class SelectFilter extends Component {
 
 export default connect((state)=>({
     articles: state.articles,
-    selected: state.articlesFilter
+    selected: state.articlesFilter.selected
 }), { dispatchSetArticlesFilter: setArticlesFilter })(SelectFilter)

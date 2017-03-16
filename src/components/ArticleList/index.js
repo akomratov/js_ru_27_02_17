@@ -33,12 +33,13 @@ class ArticleList extends Component {
 
 const mapStateToProps = state => {
 
-    const {articles, articlesFilter, dateFilter} = state
+    const {articles, articlesFilter} = state
+    const {selected, range}          = articlesFilter
 
     var filtered = []
 
     // Applying first filter by selected articles
-    for(const selectedArticle of articlesFilter) {
+    for( const selectedArticle of selected ) {
         let res = articles.find(article => article.id === selectedArticle.value)
         if( res ) {
             filtered.push( res )
@@ -49,9 +50,9 @@ const mapStateToProps = state => {
         filtered = articles
 
     // Applying second filter by Date range
-    if( dateFilter.from && dateFilter.to ) {
-        filtered = filtered.filter(a => Date.parse(a.date) >= dateFilter.from
-                                        && Date.parse(a.date) <= dateFilter.to)
+    if( range.from && range.to ) {
+        filtered = filtered.filter(a => Date.parse(a.date) >= range.from
+                                        && Date.parse(a.date) <= range.to)
     }
 
     return {

@@ -8,12 +8,12 @@ import {setDateFilter} from '../../AC'
 class DateRange extends Component {
 
     handleDayClick = (day) => {
-        const range = DateUtils.addDayToRange(day, this.props.dateFilter)
+        const range = DateUtils.addDayToRange(day, this.props.range)
         this.props.dispatchSetDateFilter( range )
     }
 
     render() {
-        const { from, to } = this.props.dateFilter;
+        const { from, to } = this.props.range;
         const selectedRange = from && to && `${from.toDateString()} - ${to.toDateString()}`
         return (
             <div className="date-range">
@@ -29,5 +29,5 @@ class DateRange extends Component {
 }
 
 export default connect((state)=>({
-    dateFilter: state.dateFilter
+    range: state.articlesFilter.range
 }), { dispatchSetDateFilter: setDateFilter })(DateRange)

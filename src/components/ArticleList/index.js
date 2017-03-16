@@ -7,55 +7,10 @@ import './style.css'
 
 class ArticleList extends Component {
 
-    applyArticlesFilter = (articles, articlesFilter) => {
-
-        var result = []
-
-        console.log('ArticleList-index.js: applyArticlesFilter, articlesFilter = ', articlesFilter)
-
-        //ок, но еще лучше делать фильтрацию в коннекте
-        for(const selectedArticle of articlesFilter) {
-            let res = articles.find(article => article.id === selectedArticle.value)
-            if( res ) {
-                result.push( res )
-            }
-        }
-
-        console.log('ArticleList-index.js: applyArticlesFilter, result = ', result)
-
-        return (result.length ? result : articles)
-    }
-
-    applyDateFilter = (articles, df) => {
-
-        console.log('ArticleList-index.js: applyDateFilter, dateFilter = ', df, ', articles = ', articles)
-
-        if( df.from && df.to ) {
-            return articles.filter(a => {
-                if( Date.parse(a.date) >= df.from && Date.parse(a.date) <= df.to ) {
-                    console.log( 'article in INTERVAL ', a )
-                    return true
-                } else {
-                    console.log( 'article NOT in INTERVAL ', a )
-                    return false
-                }
-
-            })
-        }
-
-        return articles
-    }
-
-
     render() {
-        const {articles, articlesFilter, dateFilter, toggleOpenItem, isItemOpened} = this.props
+        const {articles, toggleOpenItem, isItemOpened} = this.props
 
-        var selectedArticles = this.applyArticlesFilter(articles, articlesFilter)
-        selectedArticles = this.applyDateFilter(selectedArticles, dateFilter)
-
-        console.log('ArticleList-index.js: render, selectedArticles = ', selectedArticles)
-
-        const articleComponents = selectedArticles.map(article => <li key={article.id}>
+        const articleComponents = articles.map(article => <li key={article.id}>
             <Article article={article}
                      isOpen={isItemOpened(article.id)}
                      toggleOpen={toggleOpenItem(article.id)}
@@ -77,13 +32,33 @@ class ArticleList extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log('ArticleList-index.js: connect, state = ', state)
+
+    const {articles, articlesFilter, dateFilter} = state
+
+    var filtered = []
+
+    // Applying first filter by selected articles
+    for(const selectedArticle of articlesFilter) {
+        let res = articles.find(article => article.id === selectedArticle.value)
+        if( res ) {
+            filtered.push( res )
+        }
+    }
+
+    if( !filtered.length )
+        filtered = articles
+
+    // Applying second filter by Date range
+    if( dateFilter.from && dateFilter.to ) {
+        filtered = filtered.filter(a => Date.parse(a.date) >= dateFilter.from
+                                        && Date.parse(a.date) <= dateFilter.to)
+    }
+
     return {
-        articles: state.articles,
-        articlesFilter: state.articlesFilter,
-        dateFilter: state.dateFilter
+        articles: filtered
     }
 }
+
 
 export default connect(mapStateToProps)(accrdion(ArticleList))
 

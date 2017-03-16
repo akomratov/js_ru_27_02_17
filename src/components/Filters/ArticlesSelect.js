@@ -13,7 +13,7 @@ class SelectFilter extends Component {
 
     handleChange = selected => {
         console.log( 'ArcticlesSelect.js: handleChange, selected=', selected )
-        this.props.dispatchSetArticlesFilter( selected )
+        this.props.dispatchSetArticlesFilter( [].concat(selected.map(a=>a.value)) )
     }
 
     render() {
@@ -24,11 +24,19 @@ class SelectFilter extends Component {
             value: article.id
         }))
 
-        console.log('ArticlesSelect.js: options=', options, ', value=', selected)
+        var filter = []
+        for( const id of selected ) {
+            let res = articles.find(a => a.id === id)
+            if (res) {
+                filter.push({label: res.title, value: id})
+            }
+        }
+
+        console.log('ArticlesSelect.js: options=', options, ', selected=', selected, ', filter=', filter)
 
         return <Select
             options={options}
-            value={selected}
+            value={filter}
             multi={true}
             onChange={this.handleChange}
         />

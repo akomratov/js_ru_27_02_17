@@ -39,8 +39,8 @@ const mapStateToProps = state => {
     var filtered = []
 
     // Applying first filter by selected articles
-    for( const selectedArticle of selected ) {
-        let res = articles.find(article => article.id === selectedArticle.value)
+    for( const selectedArticleId of selected ) {
+        let res = articles.find(article => article.id === selectedArticleId)
         if( res ) {
             filtered.push( res )
         }

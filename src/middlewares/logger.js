@@ -1,6 +1,6 @@
 export default store => next => action => {
-    console.log('---', 'before: ', store.getState())
+    console.log('>--', 'before logger: ', store.getState())
     next(action)
-    console.log('---', 'after:', store.getState())
+    console.log('<--', 'after logger:', store.getState())
 //    next({...action, newField: 'some'})
 }

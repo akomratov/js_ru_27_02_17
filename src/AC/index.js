@@ -1,4 +1,4 @@
-import {INCREMENT, DELETE_ARTICLE, CHANGE_DATE_RANGE, CHANGE_SELECTION} from '../constants'
+import {INCREMENT, DELETE_ARTICLE, CHANGE_DATE_RANGE, CHANGE_SELECTION, ADD_COMMENT} from '../constants'
 
 export function increment() {
     const action = {
@@ -29,3 +29,11 @@ export function changeSelection(selected) {
         payload: { selected }
     }
 }
+
+export function addComment(articleId, comment) {
+    return {
+        type: ADD_COMMENT,
+        payload: { articleId: articleId, comment: comment }
+    }
+}
+

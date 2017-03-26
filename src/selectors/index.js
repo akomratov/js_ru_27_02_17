@@ -9,7 +9,7 @@ export const filteredArticlesSelector = createSelector(getArticles, getFilters, 
 
 export const createFindCommentSelector = () => createSelector(getComments, getId,
     (comments, id) => {
-        return comments.get(id)
+        return comments.entities.get(id)
     }
 )
 

@@ -8,7 +8,8 @@ const ArticleModel = Record({
     "title": null,
     "text": null,
     "loading": false,
-    "comments": []
+    "comments": [],
+    "commentsLoaded": false
 })
 
 const DefaultReducerState = Record({

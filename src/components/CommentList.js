@@ -3,6 +3,12 @@ import Comment from './Comment'
 import toggleOpen from '../decorators/toggleOpen'
 import NewCommentForm from './NewCommentForm'
 
+import Loader from './Loader'
+
+import {connect} from 'react-redux'
+import {loadCommentsByArticleId} from '../AC'
+
+
 class CommentList extends Component {
 
     static propTypes = {
@@ -13,9 +19,12 @@ class CommentList extends Component {
         this.size = this.container.getBoundingClientRect()
     }
 
+    componentWillReceiveProps({isOpen, article, loadCommentsByArticleId}) {
+        if (!this.props.isOpen && isOpen && !this.props.comments.entities.get(article.id)) loadCommentsByArticleId(article.id)
+    }
+
     render() {
         const {isOpen, toggleOpen} = this.props
-//        console.log('---', this.size)
         return (
             <div ref={this.getContainerRef}>
                 <a href="#" onClick={toggleOpen}>{isOpen ? 'hide' : 'show'} comments</a>
@@ -32,28 +41,54 @@ class CommentList extends Component {
     }
 
     getBody() {
-        const {article, isOpen} = this.props
+        const {article, comments, isOpen} = this.props
         if (!isOpen) return null
 
-        if (!article.comments || !article.comments.length) {
-            return <div>
-                <h3>
-                    No comments yet
-                </h3>
-                <NewCommentForm articleId={article.id} />
-            </div>
+        const list = comments.entities.get(article.id)
+
+        if (!list || !list.comments || !list.comments.length) {
+            if(comments.loading) {
+
+                return <div>
+                    <Loader />
+                    <NewCommentForm articleId={article.id} />
+                </div>
+
+            } else {
+
+                return <div>
+                    <h3>
+                        No comments yet
+                    </h3>
+                    <NewCommentForm articleId={article.id} />
+                </div>
+
+            }
         }
 
-        const commentItems = article.comments.map(id => <li key={id}><Comment id={id} /></li>)
-        return (
-            <div>
-                <ul>
-                    {commentItems}
-                </ul>
-                <NewCommentForm articleId={article.id} />
-            </div>
-        )
+        if(list && list['comments']) {
+
+            const commentItems = list.comments.map(comment => <li key={comment.id}><Comment comment={comment}/></li>)
+            return (
+                <div>
+                    <ul>
+                        {commentItems}
+                    </ul>
+                    <NewCommentForm articleId={article.id}/>
+                </div>
+            )
+        }
+
     }
 }
 
-export default toggleOpen(CommentList)
+
+const mapStateToProps = (state) => {
+    return {
+        comments: state.comments,
+        loading: state.comments.loading,
+        error: state.comments.error
+    }
+}
+
+export default connect(mapStateToProps, { loadCommentsByArticleId })(toggleOpen(CommentList))

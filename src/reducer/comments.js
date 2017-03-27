@@ -10,6 +10,7 @@ const CommentListModel = Record({
 const DefaultReducerState = Record({
     entities: new Map({}),
     error: null,
+    //здесь так просто уже не выйдет, ведь ты загружаешь не все комменты сразу, а отдельно для каждой статьи
     loading: false
 })
 
@@ -32,6 +33,7 @@ export default (state = new DefaultReducerState(), action) => {
 
         case LOAD_COMMENTS_BY_ARTICLE_ID + SUCCESS:
             const resp = new CommentListModel({ comments: payload.response })
+            //давай комменты хранить в такой же структуре, как и статьи. Иначе быстро запутаешься
             const newState = state.setIn(['entities', payload.id], resp)
                 .set('loading', false)
             return newState

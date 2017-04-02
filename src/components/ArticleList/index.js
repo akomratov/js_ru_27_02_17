@@ -9,10 +9,12 @@ import './style.css'
 
 class ArticleList extends Component {
     static contextTypes = {
-        user: PropTypes.string
+        user: PropTypes.string,
+        i18n: PropTypes.object
     }
 
     render() {
+        const {i18n} = this.context
         const {articles, error, loading, toggleOpenItem, isItemOpened, match} = this.props
         if (error) {
             return <h1>{error}</h1>
@@ -28,7 +30,7 @@ class ArticleList extends Component {
 
         return (
             <div>
-                <h3>User: {this.context.user}</h3>
+                <h3>{i18n.USER}: {this.context.user}</h3>
                 <CSSTransition component="ul"
                                transitionName="article-list"
                                transitionAppear={true}

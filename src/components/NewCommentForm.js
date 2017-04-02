@@ -13,6 +13,12 @@ class NewCommentForm extends Component {
         user: ''
     }
 
+
+    static contextTypes = {
+        user: PropTypes.string,
+        i18n: PropTypes.object
+    }
+
     handleChange = field => ev => {
         const {value} = ev.target
         if (!validators[field](value)) return
@@ -33,11 +39,12 @@ class NewCommentForm extends Component {
     }
 
     render() {
+        const {i18n} = this.context
         return (
             <form onSubmit = {this.handleSubmit}>
-                comment: <input type="text" value={this.state.text} onChange = {this.handleChange('text')}/>
-                user: <input type="text" value={this.state.user} onChange = {this.handleChange('user')}/>
-                <input type = "submit"/>
+                {i18n.COMMENT}: <input type="text" value={this.state.text} onChange = {this.handleChange('text')}/>
+                {i18n.USER}: <input type="text" value={this.state.user} onChange = {this.handleChange('user')}/>
+                <input type = "submit" value={i18n.SUBMIT} />
             </form>
         )
     }

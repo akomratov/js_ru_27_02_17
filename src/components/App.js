@@ -11,12 +11,15 @@ import Menu, {MenuItem} from './Menu/index'
 import {loadAllArticles} from '../AC'
 import history from '../history'
 
+import translations from '../i18n'
+
 class App extends Component {
     static propTypes = {
     };
 
     static childContextTypes = {
-        user: PropTypes.string
+        user: PropTypes.string,
+        i18n: PropTypes.object
     }
 
     state = {
@@ -25,7 +28,8 @@ class App extends Component {
 
     getChildContext() {
         return {
-            user: this.state.text
+            user: this.state.text,
+            i18n: translations('RU')
         }
     }
 
@@ -34,10 +38,11 @@ class App extends Component {
     }
 
     render() {
+        const {i18n} = this.getChildContext()
         return (
             <ConnectedRouter history={history}>
                 <div>
-                    Enter your name: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
+                    {i18n.ENTER_NAME}: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
                     <Menu>
                         <MenuItem path="/counter"/>
                         <MenuItem path="/filters"/>
